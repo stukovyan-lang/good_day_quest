@@ -95,7 +95,7 @@ PRIZES_CAPTION = (
     "Более 500 призов ждут тебя на фесте Good Day Полоцк!\n"
     "Сертификаты, развлечения, цветы, спорт, красота, "
     "еда, техника и многое другое.\n\n"
-    "📎 Полный актуальный список призов прикреплён выше.\n\n"
+    '<a href="https://docs.google.com/document/d/1uWY9QiNJMjtpuKjO1lBF7oz1QIJKAnnP/edit?usp=sharing&ouid=100648861533275429816&rtpof=true&sd=true">👉 Список призов</a>\n\n'
     "Обменивай Good Tokens на призы в Центре выдачи (до 19:00)!\n"
     "📍 <i>Центр выдачи призов — локация №9 на карте</i>\n\n"
     "🎁 Список призов постоянно уменьшается в течение феста.\n"
@@ -470,19 +470,9 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("✨ Улучшить браслет", callback_data="bracelet")],
             [InlineKeyboardButton("🔙 Назад в меню", callback_data="menu")],
         ])
-        # Сначала PDF со списком призов
-        try:
-            with open(PRIZES_PDF, "rb") as doc:
-                await context.bot.send_document(
-                    chat_id=chat_id, document=doc,
-                    filename="Призы Good Day Полоцк.pdf"
-                )
-        except FileNotFoundError:
-            pass
-        # Затем текст с кнопками
-        await context.bot.send_message(
-            chat_id=chat_id, text=PRIZES_CAPTION, parse_mode="HTML",
-            reply_markup=keyboard
+        await query.message.reply_text(
+            PRIZES_CAPTION, parse_mode="HTML",
+            reply_markup=keyboard, disable_web_page_preview=True
         )
 
     # --- Квест ---
@@ -516,9 +506,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # --- Браслет QUEST ---
     elif data == "b_quest":
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🔵 Standart", callback_data="standart")],
-            [InlineKeyboardButton("🟢 VIP", callback_data="vip")],
-            [InlineKeyboardButton("🟠 VIP DELUXE", callback_data="deluxe")],
+            [InlineKeyboardButton("⬆️ Улучшить браслет", callback_data="bracelet")],
             [InlineKeyboardButton("🔙 Главное меню", callback_data="menu")],
         ])
         await query.message.reply_text(QUEST_BRACELET_TEXT, parse_mode="HTML", reply_markup=keyboard)
