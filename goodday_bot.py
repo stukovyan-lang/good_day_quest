@@ -495,7 +495,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # --- VIP Браслеты (главный экран выбора) ---
     elif data == "bracelet" or data == "upgrade":
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🟡 Возможности браслета Quest", callback_data="b_quest")],
             [InlineKeyboardButton("🔵 Возможности браслета Standart", callback_data="standart")],
             [InlineKeyboardButton("🟢 Возможности браслета VIP", callback_data="vip")],
             [InlineKeyboardButton("🟠 Возможности браслета VIP DELUXE", callback_data="deluxe")],
