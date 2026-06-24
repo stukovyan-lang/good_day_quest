@@ -98,7 +98,7 @@ PRIZES_CAPTION = (
     "📎 Полный актуальный список призов прикреплён выше.\n\n"
     "Обменивай Good Tokens на призы в Центре выдачи (до 19:00)!\n"
     "📍 <i>Центр выдачи призов — локация №9 на карте</i>\n\n"
-    "🎁 Список призов постоянно уменьшяется в течении феста.\n"
+    "🎁 Список призов постоянно уменьшается в течение феста.\n"
     "👀 Хочешь видеть актуальный список призов и отслеживать, какие "
     "подарки ещё доступны прямо сейчас?\n"
     "Это возможность доступна владельцам браслетов "
@@ -112,9 +112,18 @@ PRIZES_PDF = "prizes.pdf"
 QUEST_TEXT = (
     "🎯 <b>Добро пожаловать в GOOD DAY QUEST!</b>\n\n"
     "Поздравляем, ты в игре.\n"
-    "Учавствуй в активностях, собирай валюту феста GoodToken и меняй их на призы от нас и наших партнеров.\n\n"
+    "С этого момента каждая активность может принести тебе GoodToken.\n\n"
+    "Проходи задания, участвуй в конкурсах, посещай площадки "
+    "партнёров и собирай валюту феста.\n\n"
+    "Чем больше токенов соберёшь — тем больше подарков сможешь забрать.\n\n"
     "🔥 Выполняй задания и зарабатывай свои первые GoodToken."
+)
 
+ACTIVITIES_TEXT = (
+    "🏃 <b>СПИСОК АКТИВНОСТЕЙ</b>\n\n"
+    "Выполняй активности на площадках, зарабатывай GoodToken "
+    "и обменивай их на призы.\n\n"
+    "💡 <i>Подходи к волонтёру на площадке — он начислит токены!</i>"
 )
 
 SECRET_TASK_TEXT = (
@@ -134,7 +143,7 @@ QUEST_BRACELET_TEXT = (
     "🧩 <b>Good Day Quest</b>\n"
     "Участвуй в квесте, получай GoodToken и обменивай их на призы.\n\n"
     "⚡️ <b>Вне очереди</b>\n"
-    "На активностях квеста ты проходишь быстрее, чем люди без браслета.\n\n"
+    "На активностях квеста ты проходишь быстрее.\n\n"
     "🤖 <b>Онлайн-ассистент феста</b>\n"
     "Вся информация всегда под рукой.\n\n"
     "📱 <b>Подписка Good Day на 1 месяц</b>\n"
@@ -145,18 +154,19 @@ QUEST_BRACELET_TEXT = (
 
 # --- Улучшить браслет (общий экран) ---
 UPGRADE_TEXT = (
-    "💎 <b>VIP Браслеты Good Day Полоцк</b>\n\n"
-    "🚀 Хочешь получить больше возможностей на фесте?\n"
-    "Ты можешь обменять свой браслет на более высокий уровень прямо во время феста."
-"Доступны:
-🟢 STANDART
-🔵 VIP
-🟡 VIP DELUXE"
-"Каждый следующий уровень открывает дополнительные бонусы, подарки и привилегии."
-"📍 Обратитесь на Инфо-центр возле фонтана."
-"Стоимость улучшения рассчитывается по формуле:
-Цена нового браслета − стоимость текущего браслета + 5 BYN"
-"Выбери свой браслет👇"
+    "🚀 <b>Хочешь получить больше возможностей на фесте?</b>\n\n"
+    "Ты можешь обменять свой браслет на более высокий уровень "
+    "прямо во время феста.\n\n"
+    "Доступны:\n"
+    "🔵 STANDART\n"
+    "🟢 VIP\n"
+    "🟡 VIP DELUXE\n\n"
+    "Каждый следующий уровень открывает дополнительные бонусы, "
+    "подарки и привилегии.\n\n"
+    "📍 Обратитесь на Инфо-центр возле фонтана.\n\n"
+    "Стоимость улучшения рассчитывается по формуле:\n"
+    "<i>Цена нового браслета − стоимость текущего браслета + 5 BYN</i>\n\n"
+    "Выбери свой браслет 👇"
 )
 
 # --- STANDART ---
@@ -458,7 +468,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "prizes":
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("✨ Улучшить браслет", callback_data="bracelet")],
-            [InlineKeyboardButton("📝 Список заданий", callback_data="activities")],
             [InlineKeyboardButton("🔙 Назад в меню", callback_data="menu")],
         ])
         # Сначала PDF со списком призов
@@ -476,29 +485,19 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=keyboard
         )
 
-    # --- Список активностей ---
+    # --- Квест ---
     elif data == "quest":
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("🎁 Посмотреть список призов", callback_data="prizes")],
-            [InlineKeyboardButton("🏃 Посмотреть список активностей", callback_data="activities")],
             [InlineKeyboardButton("🤫 Секретное задание", callback_data="secret")],
             [InlineKeyboardButton("🔙 Главное меню", callback_data="menu")],
         ])
         await query.message.reply_text(QUEST_TEXT, parse_mode="HTML", reply_markup=keyboard)
 
-    elif data == "activities":
-        keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🤫 Секретное задание", callback_data="secret")],
-            [InlineKeyboardButton("🎁 Смотреть призы", callback_data="prizes")],
-            [InlineKeyboardButton("🗺 Карта", callback_data="map")],
-            [InlineKeyboardButton("🔙 Главное меню", callback_data="menu")],
-        ])
-        await query.message.reply_text(ACTIVITIES_TEXT, parse_mode="HTML", reply_markup=keyboard)
-
     # --- Секретное задание ---
     elif data == "secret":
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("📝 Смотреть задания", callback_data="activities")],
+            [InlineKeyboardButton("🎯 Начать квест", callback_data="quest")],
             [InlineKeyboardButton("🔙 Главное меню", callback_data="menu")],
         ])
         await query.message.reply_text(SECRET_TASK_TEXT, parse_mode="HTML", reply_markup=keyboard)
